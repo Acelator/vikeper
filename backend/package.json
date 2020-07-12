@@ -4,7 +4,7 @@
   "description": "Backend for vikeper",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/acelator/vikeper/issues"
   },
-  "homepage": "https://github.com/acelator/vikeper#readme"
+  "homepage": "https://github.com/acelator/vikeper#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.9.6"
+  }
 }
