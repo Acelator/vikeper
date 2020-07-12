@@ -1,0 +1,19 @@
+{
+  "name": "vikeper",
+  "version": "0.1.0",
+  "description": "A notes taking app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acelator/vikeper.git"
+  },
+  "author": "acelator",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Acelator/vikeper/issues"
+  },
+  "homepage": "https://github.com/Acelator/vikeper#readme"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "vikeper-backed",
+  "version": "0.1.0",
+  "description": "Backend for vikeper",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acelator/vikeper.git"
+  },
+  "author": "acelator",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/acelator/vikeper/issues"
+  },
+  "homepage": "https://github.com/acelator/vikeper#readme"
+}
