@@ -48,7 +48,7 @@ class App {
 
     // Server routes
     private routes(): void {
-        this.app.use('/api/v1', tasksRoutes);
+        this.app.use('/api/v1/tasks', tasksRoutes);
     }
 
     // Method that starts the server
