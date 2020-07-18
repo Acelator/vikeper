@@ -2,6 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import path from "path";
 
+// Routes
+import tasksRoutes from "./api/routes/tasks/tasks.routes";
+
 class App {
     public app: express.Application;
     private readonly port: string | number;
@@ -45,10 +48,10 @@ class App {
 
     // Server routes
     private routes(): void {
-        // this.app.use('/api/v1', api.router);
+        this.app.use('/api/v1', tasksRoutes);
     }
 
-    // Function that starts the server
+    // Method that starts the server
     public listen() {
         this.app.listen(this.port, () => {
             console.log(`Server ready in port ${this.port}`);
@@ -56,4 +59,4 @@ class App {
     }
 }
 
-export default App;
+    export default App;
