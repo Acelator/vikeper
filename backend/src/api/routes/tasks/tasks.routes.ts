@@ -54,9 +54,10 @@ class TasksRoutes {
 
     // Update a task and saved it again to the db
     public async updateTask(req: Request, res: Response) {
+        console.log(req.params);
         const { tokenId, taskId } = req.params;
         const task = req.body;
-        await Task.findByIdAndRemove({_id: taskId}, task);
+        await Task.findByIdAndUpdate({_id: taskId}, task);
         res.json({
             token: tokenId,
             task: task,
@@ -68,7 +69,7 @@ class TasksRoutes {
     // Delete a task from the db
     public async deleteTask(req: Request, res: Response) {
         const { tokenId, taskId } = req.params;
-        await Task.findOneAndRemove({_id: taskId});
+        await Task.findByIdAndRemove({_id: taskId});
         res.json({
             token: tokenId,
             task: `Deleted task with id ${taskId}`,
