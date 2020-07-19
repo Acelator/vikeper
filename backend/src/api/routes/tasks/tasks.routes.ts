@@ -1,10 +1,10 @@
-import * as express from "express";
+import {Request, Response, Router} from "express";
 
 // Import models
 import Task from '../../../models/task.model';
 
 class TasksRoutes {
-    public router = express.Router();
+    public router = Router();
 
     constructor() {
         this.initRoutes();
@@ -17,7 +17,7 @@ class TasksRoutes {
     }
 
     // Sends back all the Tasks that correspond to the user
-    public async getTasks(req: express.Request, res: express.Response) {
+    public async getTasks(req: Request, res: Response) {
         const {tokenId} = req.params;
         const tasks = await Task.find();
         res.json({
@@ -28,7 +28,7 @@ class TasksRoutes {
     };
 
     // Sends back a specific task
-    public getTask(req: express.Request, res: express.Response) {
+    public getTask(req: Request, res: Response) {
         const { tokenId, taskId } = req.params;
         res.status(200);
         res.json({
@@ -39,7 +39,7 @@ class TasksRoutes {
     }
 
     // Create a task with the information send in the request and saved it in the db
-    public async createTask(req: express.Request, res: express.Response) {
+    public async createTask(req: Request, res: Response) {
         const { tokenId } = req.params;
         const task = req.body;
         const newTask = new Task(task);
