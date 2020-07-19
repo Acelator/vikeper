@@ -12,8 +12,10 @@ class TasksRoutes {
 
     public initRoutes(): void {
         this.router.get('/:tokenId/', this.getTasks);
-        this.router.get('/:tokenId/task/:taskId', this.getTask);
         this.router.post('/:tokenId/new', this.createTask);
+        this.router.get('/:tokenId/task/:taskId', this.getTask);
+        this.router.post('/:tokenId/task/:taskId', this.updateTask);
+        this.router.get('/:tokenId/task/:taskId/delete', this.deleteTask);
     }
 
     // Sends back all the Tasks that correspond to the user
@@ -25,15 +27,15 @@ class TasksRoutes {
             tasks: tasks,
             status: res.statusCode
         })
-    };
+    }
 
     // Sends back a specific task
-    public getTask(req: Request, res: Response) {
+    public async getTask(req: Request, res: Response) {
         const { tokenId, taskId } = req.params;
-        res.status(200);
+        const task = await Task.findOne({_id: taskId});
         res.json({
             token: tokenId,
-            task: taskId,
+            task: task,
             status: res.statusCode
         })
     }
@@ -47,6 +49,30 @@ class TasksRoutes {
         res.json({
             Task: newTask,
             token: tokenId
+        });
+    }
+
+    // Update a task and saved it again to the db
+    public async updateTask(req: Request, res: Response) {
+        const { tokenId, taskId } = req.params;
+        const task = req.body;
+        await Task.findByIdAndRemove({_id: taskId}, task);
+        res.json({
+            token: tokenId,
+            task: task,
+            status: res.statusCode
+        });
+
+    }
+
+    // Delete a task from the db
+    public async deleteTask(req: Request, res: Response) {
+        const { tokenId, taskId } = req.params;
+        await Task.findOneAndRemove({_id: taskId});
+        res.json({
+            token: tokenId,
+            task: `Deleted task with id ${taskId}`,
+            status: res.statusCode
         });
     }
 }
