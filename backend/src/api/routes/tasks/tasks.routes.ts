@@ -17,17 +17,18 @@ class TasksRoutes {
     }
 
     // Sends back all the Tasks that correspond to the user
-    public getTasks(req: express.Request, res: express.Response): void {
-        const {tokenId} = req.params
-        res.status(200);
+    public async getTasks(req: express.Request, res: express.Response) {
+        const {tokenId} = req.params;
+        const tasks = await Task.find();
         res.json({
             token: tokenId,
+            tasks: tasks,
             status: res.statusCode
         })
     };
 
     // Sends back a specific task
-    public getTask(req: express.Request, res: express.Response): void {
+    public getTask(req: express.Request, res: express.Response) {
         const { tokenId, taskId } = req.params;
         res.status(200);
         res.json({
@@ -37,17 +38,17 @@ class TasksRoutes {
         })
     }
 
+    // Create a task with the information send in the request and saved it in the db
     public async createTask(req: express.Request, res: express.Response) {
         const { tokenId } = req.params;
-        const task = req.body
-        const newTask = new Task(task)
-        await newTask.save()
+        const task = req.body;
+        const newTask = new Task(task);
+        await newTask.save();
         res.json({
             Task: newTask,
             token: tokenId
         });
     }
-
 }
 
 const tasksRoutes = new TasksRoutes;
