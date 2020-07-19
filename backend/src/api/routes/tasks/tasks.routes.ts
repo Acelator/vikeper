@@ -1,5 +1,8 @@
 import * as express from "express";
 
+// Import models
+import Task from '../../../models/task.model';
+
 class TasksRoutes {
     public router = express.Router();
 
@@ -9,7 +12,8 @@ class TasksRoutes {
 
     public initRoutes(): void {
         this.router.get('/:tokenId/', this.getTasks);
-        this.router.get('/:tokenId/:taskId', this.getTask);
+        this.router.get('/:tokenId/task/:taskId', this.getTask);
+        this.router.post('/:tokenId/new', this.createTask);
     }
 
     // Sends back all the Tasks that correspond to the user
@@ -32,6 +36,18 @@ class TasksRoutes {
             status: res.statusCode
         })
     }
+
+    public async createTask(req: express.Request, res: express.Response) {
+        const { tokenId } = req.params;
+        const task = req.body
+        const newTask = new Task(task)
+        await newTask.save()
+        res.json({
+            Task: newTask,
+            token: tokenId
+        });
+    }
+
 }
 
 const tasksRoutes = new TasksRoutes;
