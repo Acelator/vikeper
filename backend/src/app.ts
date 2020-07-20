@@ -4,6 +4,7 @@ import path from "path";
 
 // Routes
 import tasksRoutes from "./api/routes/tasks/tasks.routes";
+import usersRoutes from "./api/routes/users/user.routes";
 
 class App {
     public app: express.Application;
@@ -49,6 +50,7 @@ class App {
     // Server routes
     private routes(): void {
         this.app.use('/api/v1/tasks', tasksRoutes);
+        this.app.use('/api/v1/users', usersRoutes);
     }
 
     // Method that starts the server
