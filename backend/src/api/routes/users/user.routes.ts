@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 
 // Import models
-import "../../../models/user.model";
+import User from "../../../models/user.model";
 
 class UsersRoutes {
     public router = Router();
@@ -20,9 +20,33 @@ class UsersRoutes {
     }
 
     public async basicUserInfo(req: Request, res: Response) {
-        const {userId} = req.params
+        const {userId} = req.params;
+        let user = await User.findById({_id: '5f16f6bfe4fe8b40886fdeff'});
+        // @ts-ignore
+        let newUser = user.tokens;
+        let data = {
+            tokenExpiration: Date.now(),
+            permissions: {
+                userData: false
+            }
+        }
+        newUser.push(data);
+        // user.tokens.forEach(addToArray);
+        // function addToArray(item: any, index: any) {
+        //     newUser.push()
+        // }
+        // @ts-ignore
+        // user.tokens = [
+        //     {
+        //         tokenExpiration: Date.now(),
+        //         permissions: {
+        //             userData: false
+        //         }
+        //     }
+        // ];
+        await user.save();
         res.json({
-            user: userId,
+            user: user,
             status: res.statusCode
         })
     }

@@ -17,16 +17,12 @@ const userSchema = new Schema({
         required: true
     },
     tokens: [{
-        tokenId: {
-            type: String,
-            required: false
-        },
         tokenExpiration: {
             type: Date,
             required: false
         },
         // TODO: Finish permissions
-        permissions: [{
+        permissions: {
             userData: {
                 type: Boolean
             },
@@ -36,7 +32,7 @@ const userSchema = new Schema({
             createNewCollection: {
                 type: Boolean
             },
-        }],
+        },
     }],
     // TODO: Add a record that saves the current plan for the user
     createdAt: {
