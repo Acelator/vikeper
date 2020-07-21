@@ -37,7 +37,8 @@ class App {
     private connectDatabase(uri: string): void {
         mongoose.connect(uri, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: true
         }).then(db => console.log(`Db connected to ${db.connection.host}`))
             .catch(err => console.log(err));
     }

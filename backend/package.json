@@ -21,7 +21,8 @@
   "homepage": "https://github.com/acelator/vikeper#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.9.25"
+    "mongoose": "^5.9.25",
+    "ts-node": "^8.10.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
