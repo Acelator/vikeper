@@ -21,34 +21,52 @@ class UsersRoutes {
 
     public async basicUserInfo(req: Request, res: Response) {
         const {userId} = req.params;
-        let user = await User.findById({_id: '5f16f6bfe4fe8b40886fdeff'});
-        // @ts-ignore
-        let newUser = user.tokens;
-        let data = {
-            tokenExpiration: Date.now(),
-            permissions: {
-                userData: false
-            }
+        const user = await User.findById({_id: userId})
+            .then(user => {
+                return user;
+            })
+            .catch(err => {
+                console.log();
+                console.log(`User with id ${userId} not found in the db`);
+                console.log(err.name)
+                res.status(404);
+            })
+        if (res.statusCode === 200) {
+            res.json({
+                user: user,
+                status: res.statusCode
+            })
+        } else if (res.statusCode === 404) {
+            res.json({
+                error: `User with id ${userId} not found in the db`,
+                status: res.statusCode
+            })
+        } else {
+            res.json({
+                status: "error"
+            })
         }
-        newUser.push(data);
-        // user.tokens.forEach(addToArray);
-        // function addToArray(item: any, index: any) {
-        //     newUser.push()
-        // }
         // @ts-ignore
-        // user.tokens = [
-        //     {
+        // let newUser = user.tokens;
+        // let data = {
+        //     tokenExpiration: Date.now(),
+        //     permissions: {
+        //         userData: false
+        //     }
+        // }
+        // newUser.push(data);
+        // const user = {
+        //     username: "corbla",
+        //     email: "corbla04@gmail.com",
+        //     password: "test",
+        //     tokens: [{
         //         tokenExpiration: Date.now(),
         //         permissions: {
         //             userData: false
         //         }
         //     }
         // ];
-        await user.save();
-        res.json({
-            user: user,
-            status: res.statusCode
-        })
+        // await user.save();
     }
 
     public async userInfo(req: Request, res: Response) {
