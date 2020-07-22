@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/acelator/vikeper#readme",
   "dependencies": {
+    "chalk": "^4.1.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.25",
     "ts-node": "^8.10.2"

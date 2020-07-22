@@ -1,4 +1,5 @@
 import {Request, Response, Router} from "express";
+import chalk from "chalk";
 
 // Import models
 import User from "../../../models/user.model";
@@ -27,23 +28,20 @@ class UsersRoutes {
             })
             .catch(err => {
                 console.log();
-                console.log(`User with id ${userId} not found in the db`);
-                console.log(err.name)
-                res.status(404);
-            })
-        if (res.statusCode === 200) {
+                console.log(chalk.red(err.name));
+            });
+
+        // Check if the user was return
+        if (user) {
             res.json({
                 user: user,
                 status: res.statusCode
-            })
-        } else if (res.statusCode === 404) {
+            });
+        } else if (!user) {
+            res.status(404);
             res.json({
                 error: `User with id ${userId} not found in the db`,
                 status: res.statusCode
-            })
-        } else {
-            res.json({
-                status: "error"
             })
         }
         // @ts-ignore
