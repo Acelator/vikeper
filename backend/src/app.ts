@@ -27,7 +27,7 @@ class App {
     }
 
     // Initialize all the Middlewares specify when creating the App
-    private initializeMiddlewares(middlewares: { forEach: (arg0: (middleware: any) => void ) => void}): void {
+    private initializeMiddlewares(middlewares: { forEach: (arg0: (middleware: any) => void) => void }): void {
         middlewares.forEach(middleware => {
             this.app.use(middleware);
         });
@@ -62,4 +62,4 @@ class App {
     }
 }
 
-    export default App;
+export default App;
