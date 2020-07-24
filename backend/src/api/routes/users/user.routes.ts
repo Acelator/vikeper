@@ -33,6 +33,7 @@ class UsersRoutes {
 
         // Check if the user was return
         if (user) {
+            // TODO: Only send basic data that can be access by anyone
             res.json({
                 user: user,
                 status: res.statusCode
@@ -54,7 +55,7 @@ class UsersRoutes {
         // }
         // newUser.push(data);
         // const user = {
-        //     username: "corbla",
+        //     username: "test",
         //     email: "corbla04@gmail.com",
         //     password: "test",
         //     tokens: [{
