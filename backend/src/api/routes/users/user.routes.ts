@@ -20,6 +20,7 @@ class UsersRoutes {
         // this.router.get('/:userId/token/:tokenId/delete', this.deleteToken);
     }
 
+    // Only get basic user info | Token API is not required
     public async basicUserInfo(req: Request, res: Response) {
         const {userId} = req.params;
         const user = await User.findById({_id: userId})
@@ -68,6 +69,7 @@ class UsersRoutes {
         // await user.save();
     }
 
+    // Show all the data for a user | Token Api is required
     public async userInfo(req: Request, res: Response) {
         const {userId, tokenId} = req.params
         res.json({
