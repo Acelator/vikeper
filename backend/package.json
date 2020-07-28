@@ -22,7 +22,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.25",
+    "mongoose": "^5.9.26",
     "ts-node": "^8.10.2"
   },
   "devDependencies": {
