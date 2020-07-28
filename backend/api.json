@@ -1,0 +1,97 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "0.0.1",
+    "title": "API for vikeper",
+    "description": "API for vikeper",
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/Acelator/vikeper/blob/master/LICENSE"
+    }
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "View users info if there's a valid token"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://localhost:3000"
+    }
+  ],
+  "externalDocs": {
+    "url": "https://acelator.github.io/vikeper"
+  },
+  "paths": {
+    "/{apiV}/tasks/{tokenId}": {
+      "get": {
+        "description": "Returns all the tasks that belongs to the owner of the tokenId",
+        "parameters": [
+          {
+            "$ref": "#components/parameters/tasks"
+          },
+          {
+            "$ref": "#components/parameters/token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#components/schemas/task"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "tokenId doesn't belong to any user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#components/schemas/error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{apiV}/tasks/{tokenId}/new": {
+      "get": {
+        "parameters": [
+          {
+          }
+        ]
+      }
+    },
+    "/{apiV}/tasks/{tokenId}/task/{taskId}": {
+      "get": {
+        "parameters": []
+      },
+      "post": {
+        "parameters": []
+      }
+    },
+    "/{apiV}/tasks/{tokenId}/task/{taskId}/delete": {
+      "get": {
+        "parameters": []
+      }
+    }
+  },
+  "components": {
+  },
+  "security": [
+    {
+    }
+  ]
+
+}
