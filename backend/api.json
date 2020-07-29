@@ -134,7 +134,16 @@
         },
         "example": "sdaf254f83gfknr961fg21buw"
       }
+    },
+    "examples": {
+      "errors": {
+
+      }
+    },
+    "schemas": {
+
     }
+
   },
   "security": [
     {
