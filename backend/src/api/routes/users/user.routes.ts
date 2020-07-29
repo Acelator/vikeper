@@ -88,28 +88,32 @@ class UsersRoutes {
 				console.log(chalk.red(err.name));
 			});
 
+		// TODO
 		if (user) {
 			// @ts-ignore
-			const isTokenValid = function() {
+			const isTokenValid = function () {
 				// @ts-ignore
-				for (let i = 0; i < user.tokens.length; i++) {
-                    // @ts-ignore
-				    if (tokenId === user.tokens[i]) {
-				        return true;
-                    }
+				for (let i in user.tokens) {
+					// @ts-ignore
+					if (tokenId == user.tokens[i]._id) {
+						return true;
+					}
 				}
-			}
+			};
 
-			// @ts-ignore
-			if (isTokenValid) {
+			if (isTokenValid()) {
 				res.json({
 					user: userId,
 					token: tokenId,
 					status: res.statusCode,
 				});
 			} else {
-			    res.status(401)
-            }
+				res.status(401);
+				res.json({
+					error: `Token ${tokenId} doesn't belong to user ${userId}`,
+					status: res.statusCode,
+				});
+			}
 		} else {
 			res.status(404);
 			res.json({
