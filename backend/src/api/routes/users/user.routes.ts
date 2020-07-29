@@ -34,9 +34,16 @@ class UsersRoutes {
 
 		// Check if the user was return
 		if (user) {
+			const basic_user = {
+				// @ts-ignore
+				username: user.username,
+				// @ts-ignore
+				"created at": user.createdAt,
+			};
 			// TODO: Only send basic data that can be access by anyone
 			res.json({
-				user: user,
+				mode: "Basic user",
+				user: basic_user,
 				status: res.statusCode,
 			});
 		} else if (!user) {
@@ -72,11 +79,44 @@ class UsersRoutes {
 	// Show all the data for a user | Token Api is required
 	public async userInfo(req: Request, res: Response) {
 		const {userId, tokenId} = req.params;
-		res.json({
-			user: userId,
-			token: tokenId,
-			status: res.statusCode,
-		});
+		const user = await User.findById({_id: userId})
+			.then(user => {
+				return user;
+			})
+			.catch(err => {
+				console.log();
+				console.log(chalk.red(err.name));
+			});
+
+		if (user) {
+			// @ts-ignore
+			const isTokenValid = function() {
+				// @ts-ignore
+				for (let i = 0; i < user.tokens.length; i++) {
+                    // @ts-ignore
+				    if (tokenId === user.tokens[i]) {
+				        return true;
+                    }
+				}
+			}
+
+			// @ts-ignore
+			if (isTokenValid) {
+				res.json({
+					user: userId,
+					token: tokenId,
+					status: res.statusCode,
+				});
+			} else {
+			    res.status(401)
+            }
+		} else {
+			res.status(404);
+			res.json({
+				error: `User with id ${userId} not found in the db`,
+				status: res.statusCode,
+			});
+		}
 	}
 
 	// private async newUser(req: Request, res:Response) {
