@@ -10,10 +10,6 @@
     }
   },
   "tags": [
-    {
-      "name": "user",
-      "description": "View users info if there's a valid token"
-    }
   ],
   "servers": [
     {
@@ -23,130 +19,8 @@
   "externalDocs": {
     "url": "https://acelator.github.io/vikeper"
   },
-  "paths": {
-    "/{apiV}/tasks/{tokenId}": {
-      "get": {
-        "description": "Returns all the tasks that belongs to the owner of the tokenId",
-        "parameters": [
-          {
-            "$ref": "#components/parameters/apiV"
-          },
-          {
-            "$ref": "#components/parameters/tokenId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of tasks",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#components/schemas/task"
-                  },
-                  "example": {
-                    "default": {
-                      "$ref": "#components/examples/tasks"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "tokenId doesn't belong to any user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#components/schemas/error"
-                  },
-                  "example": {
-                    "default": {
-                      "$ref": "components/examples/errors/notFound"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/{apiV}/tasks/{tokenId}/new": {
-      "get": {
-        "description": "",
-        "parameters": [
-        ],
-        "responses": {
-        }
-      }
-    },
-    "/{apiV}/tasks/{tokenId}/task/{taskId}": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-          }
-        },
-        "responses": {
-        }
-      }
-    },
-    "/{apiV}/tasks/{tokenId}/task/{taskId}/delete": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-        }
-      }
-    }
-  },
-  "components": {
-    "parameters": {
-      "apiV": {
-        "name": "API version",
-        "description": "Version of the API",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        },
-        "example": "v1"
-      },
-      "tokenId": {
-        "name": "Token Id",
-        "description": "A token Id that is linked to a user",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        },
-        "example": "sdaf254f83gfknr961fg21buw"
-      }
-    },
-    "examples": {
-      "errors": {
-
-      }
-    },
-    "schemas": {
-
-    }
-
-  },
+  "paths": {},
+  "components": {},
   "security": [
-    {
-    }
   ]
 }
