@@ -14,7 +14,7 @@ class UsersRoutes {
 	public initRoutes(): void {
 		this.router.get("/:userId", this.basicUserInfo);
 		this.router.get("/:tokenId/:userId", this.userInfo);
-		// this.router.post('/new', this.newUser);
+		this.router.post("/new", this.newUser);
 		// this.router.post('/userId', this.updateUser);
 		// this.router.post('/:userId/token/new', this.createToken);
 		// this.router.get('/:userId/token/:tokenId/delete', this.deleteToken);
@@ -95,6 +95,7 @@ class UsersRoutes {
 				// @ts-ignore
 				for (let i in user.tokens) {
 					// @ts-ignore
+					// noinspection JSUnfilteredForInLoop
 					if (tokenId == user.tokens[i]._id) {
 						return true;
 					}
@@ -123,9 +124,32 @@ class UsersRoutes {
 		}
 	}
 
-	// private async newUser(req: Request, res:Response) {
-	//     // TODO: Create new token for the user
-	// }
+	public async newUser(req: Request, res: Response): Promise<void> {
+		const user = req.body;
+
+		// Create a new token for the user
+		user.tokens = {
+			tokenExpiration: Date.now(),
+			permissions: {
+				userData: false,
+			},
+		};
+
+		// Create and saves a user
+		const newUser = new User(user);
+		await newUser.save().catch(err => {
+			res.status(500);
+			res.json({
+				status: res.statusCode,
+				msg: "An error has happened. Tried again",
+				err: err,
+			});
+		});
+
+		res.json({
+			user: newUser,
+		});
+	}
 
 	// private createToken(req: Request, res: Response) {
 	//
