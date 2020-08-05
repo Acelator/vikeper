@@ -4,6 +4,10 @@ import chalk from "chalk";
 // Import models
 import User from "../../../models/user.model";
 
+// Helpers
+import isAuthenticated from "../../../helpers/Authentication";
+
+// All the related users routes
 class UsersRoutes {
 	public router = Router();
 
@@ -12,119 +16,15 @@ class UsersRoutes {
 	}
 
 	public initRoutes(): void {
-		this.router.get("/:userId", this.basicUserInfo);
-		this.router.get("/:tokenId/:userId", this.userInfo);
 		this.router.post("/new", this.newUser);
-		// this.router.post('/userId', this.updateUser);
-		// this.router.post('/:userId/token/new', this.createToken);
-		// this.router.get('/:userId/token/:tokenId/delete', this.deleteToken);
+		this.router.get("/:userId", this.userInfo);
+		this.router.post("/:userId/update", this.updateUser);
+		this.router.post("/:userId/tokens/new", this.createToken);
+		this.router.get("/:userId/tokens/delete", this.deleteToken);
 	}
 
-	// Only get basic user info | Token API is not required
-	public async basicUserInfo(req: Request, res: Response) {
-		const {userId} = req.params;
-		const user = await User.findById({_id: userId})
-			.then(user => {
-				return user;
-			})
-			.catch(err => {
-				console.log();
-				console.log(chalk.red(err.name));
-			});
-
-		// Check if the user was return
-		if (user) {
-			const basic_user = {
-				// @ts-ignore
-				username: user.username,
-				// @ts-ignore
-				"created at": user.createdAt,
-			};
-			// TODO: Only send basic data that can be access by anyone
-			res.json({
-				mode: "Basic user",
-				user: basic_user,
-				status: res.statusCode,
-			});
-		} else if (!user) {
-			res.status(404);
-			res.json({
-				error: `User with id ${userId} not found in the db`,
-				status: res.statusCode,
-			});
-		}
-		// @ts-ignore
-		// let newUser = user.tokens;
-		// let data = {
-		//     tokenExpiration: Date.now(),
-		//     permissions: {
-		//         userData: false
-		//     }
-		// }
-		// newUser.push(data);
-		// const user = {
-		//     username: "test",
-		//     email: "corbla04@gmail.com",
-		//     password: "test",
-		//     tokens: [{
-		//         tokenExpiration: Date.now(),
-		//         permissions: {
-		//             userData: false
-		//         }
-		//     }
-		// ];
-		// await user.save();
-	}
-
-	// Show all the data for a user | Token Api is required
-	public async userInfo(req: Request, res: Response) {
-		const {userId, tokenId} = req.params;
-		const user = await User.findById({_id: userId})
-			.then(user => {
-				return user;
-			})
-			.catch(err => {
-				console.log();
-				console.log(chalk.red(err.name));
-			});
-
-		// TODO
-		if (user) {
-			// @ts-ignore
-			const isTokenValid = function () {
-				// @ts-ignore
-				for (let i in user.tokens) {
-					// @ts-ignore
-					// noinspection JSUnfilteredForInLoop
-					if (tokenId == user.tokens[i]._id) {
-						return true;
-					}
-				}
-			};
-
-			if (isTokenValid()) {
-				res.json({
-					user: userId,
-					token: tokenId,
-					status: res.statusCode,
-				});
-			} else {
-				res.status(401);
-				res.json({
-					error: `Token ${tokenId} doesn't belong to user ${userId}`,
-					status: res.statusCode,
-				});
-			}
-		} else {
-			res.status(404);
-			res.json({
-				error: `User with id ${userId} not found in the db`,
-				status: res.statusCode,
-			});
-		}
-	}
-
-	public async newUser(req: Request, res: Response): Promise<void> {
+	// Creates a new user
+	public async newUser(req: Request, res: Response) {
 		const user = req.body;
 
 		// Create a new token for the user
@@ -147,21 +47,70 @@ class UsersRoutes {
 		});
 
 		res.json({
+			headers: req.header("userToken"),
 			user: newUser,
 		});
 	}
 
-	// private createToken(req: Request, res: Response) {
-	//
-	// }
+	// Shows the user data
+	public async userInfo(req: Request, res: Response) {
+		const {userId} = req.params;
+		const user = await User.findById({_id: userId})
+			.then(user => {
+				return user;
+			})
+			.catch(err => {
+				console.log();
+				console.log(chalk.red(err.name));
+			});
 
-	// private deleteToken(req: Request, res: Response) {
-	//
-	// }
+		// TODO
+		if (user) {
+			if (isAuthenticated(req.header('userToken'), user)) {
+				res.json({
+					user: userId,
+					token: req.header('userToken'),
+					status: res.statusCode,
+				});
+			} else {
+				res.status(401);
+				res.json({
+					error: `Token ${req.header('userToken')} doesn't belong to user ${userId}`,
+					status: res.statusCode,
+				});
+			}
+		} else {
+			res.status(404);
+			res.json({
+				error: `User with id ${userId} not found in the db`,
+				status: res.statusCode,
+			});
+		}
+	}
 
-	// private updateUser(req: Request, res: Response) {
-	//
-	// }
+	// Updates user information
+	public updateUser(req: Request, res: Response) {
+		res.json({
+			body: req.body,
+			method: "updateUser",
+		});
+	}
+
+	// Creates a new token for the authenticated user
+	public createToken(req: Request, res: Response) {
+		res.json({
+			body: req.body,
+			method: "newToken",
+		});
+	}
+
+	// Deletes a token for the authenticated user
+	public deleteToken(req: Request, res: Response) {
+		res.json({
+			body: req.body,
+			method: "deleteToken",
+		});
+	}
 }
 
 const usersRoutes = new UsersRoutes();
