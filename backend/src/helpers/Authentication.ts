@@ -20,7 +20,7 @@ export function isAuthenticated(
 }
 
 // Takes as argument the Authorization header and split it so we just keep the token itself
-export function getAuthorizationCode(req: any) {
+export function getAuthorizationToken(req: any) {
 	const authorizationArray: Array<any> | undefined = req?.split("Bearer ", 2);
 	const authorizationToken: string = authorizationArray?.[1];
 	return authorizationToken;

@@ -22,6 +22,7 @@ class TasksRoutes {
 	// Sends back all the Tasks that correspond to the user
 	public async getTasks(req: Request, res: Response) {
 		const {tokenId} = req.params;
+
 		const tasks = await Task.find();
 		res.json({
 			token: tokenId,
@@ -33,6 +34,7 @@ class TasksRoutes {
 	// Sends back a specific task
 	public async getTask(req: Request, res: Response) {
 		const {tokenId, taskId} = req.params;
+
 		const task = await Task.findOne({_id: taskId})
 			.then(task => {
 				return task;
@@ -42,6 +44,7 @@ class TasksRoutes {
 				console.log();
 				console.log(chalk.red(err.name));
 			});
+
 		res.json({
 			token: tokenId,
 			task: task,
@@ -53,8 +56,10 @@ class TasksRoutes {
 	public async createTask(req: Request, res: Response) {
 		const {tokenId} = req.params;
 		const task = req.body;
+
 		const newTask = new Task(task);
 		await newTask.save().catch(err => console.log(err));
+
 		res.json({
 			Task: newTask,
 			token: tokenId,
@@ -63,14 +68,15 @@ class TasksRoutes {
 
 	// Update a task and saved it again to the db
 	public async updateTask(req: Request, res: Response) {
-		console.log(req.params);
 		const {tokenId, taskId} = req.params;
 		const updatedTask = req.body;
+
 		const task = await Task.findByIdAndUpdate({_id: taskId}, updatedTask)
 			.then(task => {
 				return task;
 			})
 			.catch(err => console.log(chalk.red(err.name)));
+
 		res.json({
 			token: tokenId,
 			task: task,
@@ -81,9 +87,11 @@ class TasksRoutes {
 	// Delete a task from the db
 	public async deleteTask(req: Request, res: Response) {
 		const {tokenId, taskId} = req.params;
+
 		await Task.findByIdAndRemove({_id: taskId}).catch(err =>
 			console.log(chalk.red(err.name))
 		);
+
 		res.json({
 			token: tokenId,
 			task: `Deleted task with id ${taskId}`,
@@ -92,6 +100,6 @@ class TasksRoutes {
 	}
 }
 
-const tasksRoutes = new TasksRoutes;
+const tasksRoutes = new TasksRoutes();
 
 export default tasksRoutes.router;

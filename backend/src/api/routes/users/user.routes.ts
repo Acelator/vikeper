@@ -5,9 +5,12 @@ import chalk from "chalk";
 import User from "../../../models/user.model";
 
 // Helpers
-import {isAuthenticated, getAuthorizationCode} from "../../../helpers/Authentication";
+import {
+	isAuthenticated,
+	getAuthorizationToken,
+} from "../../../helpers/Authentication";
 
-// All the related users routes
+// Users related routes
 class UsersRoutes {
 	public router = Router();
 
@@ -55,6 +58,10 @@ class UsersRoutes {
 	// Return the user data
 	public async userInfo(req: Request, res: Response) {
 		const {userId} = req.params;
+		const authorization: string = getAuthorizationToken(
+			req.header("Authorization")
+		);
+
 		const user = await User.findById({_id: userId})
 			.then(user => {
 				return user;
@@ -63,14 +70,12 @@ class UsersRoutes {
 				console.log();
 				console.log(chalk.red(err.name));
 			});
-		const authorization = getAuthorizationCode(req.header('Authorization'))
 
-		// TODO
 		if (user) {
 			if (isAuthenticated(authorization, user)) {
 				res.json({
-					user: userId,
-					token: req.header('userToken'),
+					user: user,
+					token: req.header("userToken"),
 					status: res.statusCode,
 				});
 			} else {
