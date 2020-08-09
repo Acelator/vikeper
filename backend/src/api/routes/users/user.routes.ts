@@ -5,7 +5,7 @@ import chalk from "chalk";
 import User from "../../../models/user.model";
 
 // Helpers
-import isAuthenticated from "../../../helpers/Authentication";
+import {isAuthenticated, getAuthorizationCode} from "../../../helpers/Authentication";
 
 // All the related users routes
 class UsersRoutes {
@@ -52,7 +52,7 @@ class UsersRoutes {
 		});
 	}
 
-	// Shows the user data
+	// Return the user data
 	public async userInfo(req: Request, res: Response) {
 		const {userId} = req.params;
 		const user = await User.findById({_id: userId})
@@ -63,10 +63,11 @@ class UsersRoutes {
 				console.log();
 				console.log(chalk.red(err.name));
 			});
+		const authorization = getAuthorizationCode(req.header('Authorization'))
 
 		// TODO
 		if (user) {
-			if (isAuthenticated(req.header('userToken'), user)) {
+			if (isAuthenticated(authorization, user)) {
 				res.json({
 					user: userId,
 					token: req.header('userToken'),
@@ -75,7 +76,7 @@ class UsersRoutes {
 			} else {
 				res.status(401);
 				res.json({
-					error: `Token ${req.header('userToken')} doesn't belong to user ${userId}`,
+					error: `Token ${authorization} doesn't belong to user ${userId}`,
 					status: res.statusCode,
 				});
 			}
