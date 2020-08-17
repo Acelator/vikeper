@@ -11,6 +11,7 @@ class TasksRoutes {
 		this.initRoutes();
 	}
 
+	// Change tokenId to be include in Authentication header
 	public initRoutes(): void {
 		this.router.get("/:tokenId/", this.getTasks);
 		this.router.post("/:tokenId/new", this.createTask);
