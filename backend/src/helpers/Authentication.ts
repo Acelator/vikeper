@@ -10,7 +10,7 @@ export function isAuthenticated(
 		for (let i in user.tokens) {
 			// @ts-ignore
 			// noinspection JSUnfilteredForInLoop
-			if (authorizationToken == user.tokens[i]._id) {
+			if (authorizationToken == user.tokens[i].id) {
 				return true;
 			}
 		}

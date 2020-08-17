@@ -18,6 +18,9 @@ const userSchema = new Schema({
 	},
 	tokens: [
 		{
+			id: {
+				type: String
+			},
 			tokenExpiration: {
 				type: Date,
 				required: false,

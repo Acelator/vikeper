@@ -1,7 +1,8 @@
 import {Request, Response, Router} from "express";
 import chalk from "chalk";
+import cryptoString from "crypto-random-string";
 
-// Import models
+// Models
 import User from "../../../models/user.model";
 
 // Helpers
@@ -29,9 +30,11 @@ class UsersRoutes {
 	// Creates a new user
 	public async newUser(req: Request, res: Response) {
 		const user = req.body;
+		const tokenId: string = cryptoString({length: 64, type: 'base64'});
 
 		// Create a new token for the user
 		user.tokens = {
+			id: tokenId,
 			tokenExpiration: Date.now(),
 			permissions: {
 				userData: false,
