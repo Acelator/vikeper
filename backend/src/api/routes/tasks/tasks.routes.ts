@@ -4,6 +4,9 @@ import chalk from "chalk";
 // Import models
 import Task from "../../../models/task.model";
 
+// Import helpers
+import {getAuthorizationToken} from "../../../helpers/Authentication";
+
 class TasksRoutes {
 	public router = Router();
 
@@ -23,12 +26,14 @@ class TasksRoutes {
 	// Sends back all the Tasks that correspond to the user
 	public async getTasks(req: Request, res: Response) {
 		const {tokenId} = req.params;
+		const token: string = getAuthorizationToken(req.header('Authorization'))
 
 		const tasks = await Task.find();
 		res.json({
-			token: tokenId,
+			token: token,
 			tasks: tasks,
 			status: res.statusCode,
+			headers: req.headers
 		});
 	}
 
