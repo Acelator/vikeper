@@ -2,25 +2,107 @@
   "openapi": "3.0.3",
   "info": {
     "version": "0.0.1",
-    "title": "API for vikeper",
+    "title": "Vikeper API",
     "description": "API for vikeper",
     "license": {
-      "name": "MIT",
+      "name": "The MIT License (MIT)",
       "url": "https://github.com/Acelator/vikeper/blob/master/LICENSE"
     }
   },
-  "tags": [
-  ],
   "servers": [
     {
-      "url": "https://localhost:3000/api"
+      "url": "http://localhost:3000/api/{version}",
+      "description": "Development server | Port may be different",
+      "variables": {
+        "version": {
+          "description": "API'S version",
+          "enum": [
+            "v1"
+
+          ],
+          "default": "v1"
+        }
+      }
     }
+  ],
+  "tags": [
   ],
   "externalDocs": {
     "url": "https://acelator.github.io/vikeper"
   },
-  "paths": {},
-  "components": {},
+  "paths": {
+    "/tasks": {
+      "description": "",
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/tasks"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tasks"
+        ]
+      }
+    },
+    "/tasks/new": {
+      "description": "",
+      "post": {
+      }
+    },
+    "/tasks/id/{taskId}": {
+      "description": "",
+      "get": {
+      },
+      "post": {
+      }
+    },
+    "/tasks/id/{taskId}/delete": {
+      "description": "",
+      "get": {
+      }
+    },
+    "/users/new": {
+      "description": "",
+      "post": {
+      }
+    },
+    "/users/{userId}": {
+      "description": "",
+      "get": {
+      }
+    },
+    "/users/{userId}/update": {
+      "description": "",
+      "post": {
+      }
+    },
+    "/users/{userId}/tokens/new": {
+      "description": "",
+      "post": {
+      }
+    },
+    "/users/{userId}/tokens/delete": {
+      "description": "",
+      "get": {
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "tasks": {
+      }
+    }
+  },
   "security": [
   ]
 }

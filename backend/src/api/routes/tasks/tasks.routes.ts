@@ -12,7 +12,7 @@ class TasksRoutes {
 	}
 
 	public initRoutes(): void {
-		this.router.get("/:tokenId/", this.getTasks);
+		this.router.get("/:tokenId", this.getTasks);
 		this.router.post("/:tokenId/new", this.createTask);
 		this.router.get("/:tokenId/task/:taskId", this.getTask);
 		this.router.post("/:tokenId/task/:taskId", this.updateTask);
